@@ -14,7 +14,7 @@ export default function Navbar() {
 			</div>
 			<Link
 				href="/login"
-				className="border-sky-600 border-2 py-1 px-3 text-sky-600 font-semibold rounded-md hover:bg-slate-200"
+				className="border-sky-500 border-2 py-1 px-3 text-sky-600 font-semibold rounded-md hover:bg-slate-200"
 			>
 				Login
 			</Link>
