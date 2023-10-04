@@ -5,9 +5,11 @@ export default function Navbar() {
 	return (
 		<div className="bg-white h-14 text-black flex items-center justify-between p-4 shadow">
 			<div className="flex items-center gap-3">
-				<PiBagFill className="text-4xl" />
-				<div className="font-bold text-3xl">Job Fair</div>
-				<div className="flex gap-4 ml-4 font-semibold">
+				<Link href="/" className="flex items-center gap-3">
+					<PiBagFill className="text-4xl" />
+					<div className="font-bold text-3xl whitespace-nowrap">Job Fair</div>
+				</Link>
+				<div className="flex gap-4 mx-4 font-semibold">
 					<Link href="/interview">My interview</Link>
 					<Link href="/create">Create company</Link>
 				</div>

@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<div className="bg-gradient-to-br from-cyan-500 to-sky-600 min-h-screen">
+				<div className="bg-gradient-to-br from-cyan-500 to-sky-600 min-h-screen pb-0.5">
 					<Navbar />
 					{children}
 				</div>
