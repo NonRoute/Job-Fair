@@ -15,24 +15,31 @@ export default function Register() {
 
 	const router = useRouter()
 
-	const onRegister = async () => {
+	const onRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
 		const response = await userRegister(name.current, tel.current, email.current, password.current)
 		if (response.success) {
 			toast.success('Register success')
 			router.push('/')
 		} else {
-			toast.error('Register error')
+			toast.error('Register failed')
 			console.error(response.msg)
 		}
 	}
 	return (
-		<div>
+		<form onSubmit={onRegister}>
 			<Center header="Register">
-				<TextField required label="Name" variant="filled" onChange={(e) => (name.current = e.target.value)} />
+				<TextField
+					required
+					label="Name"
+					type="text"
+					variant="filled"
+					onChange={(e) => (name.current = e.target.value)}
+				/>
 				<TextField
 					required
 					label="Telephone Number"
-					type="number"
+					type="text"
 					variant="filled"
 					onChange={(e) => (tel.current = e.target.value)}
 				/>
@@ -52,8 +59,8 @@ export default function Register() {
 				/>
 				<div className="flex flex-col gap-1">
 					<button
+						type="submit"
 						className="bg-gradient-to-br from-cyan-500 to-sky-600 hover:from-cyan-400 hover:to-sky-500 py-2 px-3 text-white font-semibold rounded-md hover:bg-slate-200 text-lg"
-						onClick={onRegister}
 					>
 						Register
 					</button>
@@ -62,6 +69,6 @@ export default function Register() {
 					</Link>
 				</div>
 			</Center>
-		</div>
+		</form>
 	)
 }

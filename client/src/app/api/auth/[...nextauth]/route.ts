@@ -1,3 +1,4 @@
+import userLogin from '@/app/libs/userLogin'
 import NextAuth, { AuthOptions } from 'next-auth'
 
 import CredentialsProvider from 'next-auth/providers/credentials'
@@ -17,11 +18,11 @@ export const authOptions: AuthOptions = {
 			},
 			async authorize(credentials, req) {
 				// Add logic here to look up the user from the credentials supplied
-				console.log(credentials)
-				const user = { id: '1', name: 'J Smith', email: 'jsmith@example.com' }
-				// return user
+				if (!credentials) return null
 
-				if (user) {
+				const user = await userLogin(credentials.email, credentials.password)
+
+				if (user.success) {
 					// Any object returned will be saved in `user` property of the JWT
 					return user
 				} else {
@@ -33,7 +34,16 @@ export const authOptions: AuthOptions = {
 			}
 		})
 	],
-
+	session: { strategy: 'jwt' },
+	callbacks: {
+		async jwt({ token, user }) {
+			return { ...token, ...user }
+		},
+		async session({ session, token, user }) {
+			session.user = token as any
+			return session
+		}
+	},
 	pages: {
 		signIn: '/login'
 	}
