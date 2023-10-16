@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRef } from 'react'
 import userRegister from '../libs/userRegister'
 import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 
 export default function Register() {
 	const name = useRef('')
@@ -17,26 +18,33 @@ export default function Register() {
 	const onRegister = async () => {
 		const response = await userRegister(name.current, tel.current, email.current, password.current)
 		if (response.success) {
+			toast.success('Register success')
 			router.push('/')
+		} else {
+			toast.error('Register error')
+			console.error(response.msg)
 		}
 	}
 	return (
 		<div>
 			<Center header="Register">
-				<TextField label="Name" variant="filled" onChange={(e) => (name.current = e.target.value)} />
+				<TextField required label="Name" variant="filled" onChange={(e) => (name.current = e.target.value)} />
 				<TextField
+					required
 					label="Telephone Number"
 					type="number"
 					variant="filled"
 					onChange={(e) => (tel.current = e.target.value)}
 				/>
 				<TextField
+					required
 					label="Email"
 					type="email"
 					variant="filled"
 					onChange={(e) => (email.current = e.target.value)}
 				/>
 				<TextField
+					required
 					label="Password"
 					type="password"
 					variant="filled"

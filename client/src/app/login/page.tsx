@@ -13,12 +13,14 @@ export default function Login() {
 		<div>
 			<Center header="Login">
 				<TextField
+					required
 					label="Email"
 					type="email"
 					variant="filled"
 					onChange={(e) => (email.current = e.target.value)}
 				/>
 				<TextField
+					required
 					label="Password"
 					type="password"
 					variant="filled"
