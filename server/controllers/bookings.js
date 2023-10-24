@@ -109,7 +109,7 @@ exports.addBooking = async (req, res, next) => {
     req.body.user = req.user.id;
 
     // only allow the registered user to book up to 3 nights
-    const bookingDate = new Date(req.body.bookingDate);
+    const bookingStart = new Date(req.body.bookingStart);
     const existedBookings = await Booking.find({ user: req.user.id });
 
     if (existedBookings.length >= 3) {
