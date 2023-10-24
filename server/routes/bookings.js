@@ -5,15 +5,21 @@
 *     Booking:
 *       type: object
 *       required:
-*         - bookingDate
+*         - bookingStart
+*         - bookingEnd
 *         - user
 *         - company
 *       properties:
-*         bookingDate:
+*         bookingStart:
 *           type: string
 *           format: date
-*           example: '2023-08-20'
-*           description: Interview Date
+*           example: '2023-08-20T14:00:00'
+*           description: Interview start date time
+*         bookingEnd:
+*           type: string
+*           format: date
+*           example: '2023-08-20T15:30:00'
+*           description: Interview end date time
 *         user:
 *           type: string
 *           description: ID of the user making the booking
@@ -34,13 +40,19 @@
 *     BookingBody:
 *       type: object
 *       required:
-*         - bookingDate
+*         - bookingStart
+*         - bookingEnd
 *       properties:
-*         bookingDate:
+*         bookingStart:
 *           type: string
 *           format: date
-*           example: '2023-08-20'
-*           description: Interview Date
+*           example: '2023-08-20T14:00:00'
+*           description: Interview start date time
+*         bookingEnd:
+*           type: string
+*           format: date
+*           example: '2023-08-20T15:30:00'
+*           description: Interview end date time
 *         createdAt:
 *           type: string
 *           format: date

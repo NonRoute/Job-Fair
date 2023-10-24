@@ -10,7 +10,8 @@ exports.sendMail = async (user, booking) => {
     },
     secure: true, // upgrades later with STARTTLS -- change this based on the PORT
   });
-  const bookingDate = new Date(booking.bookingDate);
+  const bookingStart = new Date(booking.bookingStart);
+  const bookingEnd = new Date(booking.bookingEnd);
   const company = await Company.findById(booking.company);
   const mailData = {
     from: process.env.AUTH_EMAIL,
@@ -23,7 +24,7 @@ exports.sendMail = async (user, booking) => {
      Company: ${company.name}
      Company Address: ${company.address}, ${company.province}, ${company.tel}
      Business: ${company.business}
-     Booking Date: ${bookingDate.toLocaleDateString("en-GB")}
+     Booking session: ${bookingStart.toLocaleDateString("en-GB")} - ${bookingEnd.toLocaleDateString("en-GB")}
 
  We kindly ask that you review the details above to ensure that everything is accurate. If you notice any discrepancies, please do not hesitate to contact us at ${
    process.env.AUTH_EMAIL
