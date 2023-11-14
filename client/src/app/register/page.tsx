@@ -1,62 +1,38 @@
-'use client'
-import Center from '@/components/Center'
-import { TextField } from '@mui/material'
-import Link from 'next/link'
-import { useRef } from 'react'
-import userRegister from '../libs/userRegister'
-import { useRouter } from 'next/navigation'
-import { toast } from 'react-toastify'
+"use client";
+import Center from "@/components/Center";
+import { TextField } from "@mui/material";
+import Link from "next/link";
+import { useRef } from "react";
+import userRegister from "../../libs/userRegister";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function Register() {
-	const name = useRef('')
-	const tel = useRef('')
-	const email = useRef('')
-	const password = useRef('')
+	const name = useRef("");
+	const tel = useRef("");
+	const email = useRef("");
+	const password = useRef("");
 
-	const router = useRouter()
+	const router = useRouter();
 
 	const onRegister = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
-		const response = await userRegister(name.current, tel.current, email.current, password.current)
+		e.preventDefault();
+		const response = await userRegister(name.current, tel.current, email.current, password.current);
 		if (response.success) {
-			toast.success('Register success')
-			router.push('/')
+			toast.success("Register success");
+			router.push("/");
 		} else {
-			toast.error('Register failed')
-			console.error(response.msg)
+			toast.error("Register failed");
+			console.error(response.msg);
 		}
-	}
+	};
 	return (
 		<form onSubmit={onRegister}>
 			<Center header="Register">
-				<TextField
-					required
-					label="Name"
-					type="text"
-					variant="filled"
-					onChange={(e) => (name.current = e.target.value)}
-				/>
-				<TextField
-					required
-					label="Telephone Number"
-					type="text"
-					variant="filled"
-					onChange={(e) => (tel.current = e.target.value)}
-				/>
-				<TextField
-					required
-					label="Email"
-					type="email"
-					variant="filled"
-					onChange={(e) => (email.current = e.target.value)}
-				/>
-				<TextField
-					required
-					label="Password"
-					type="password"
-					variant="filled"
-					onChange={(e) => (password.current = e.target.value)}
-				/>
+				<TextField required label="Name" type="text" variant="filled" onChange={(e) => (name.current = e.target.value)} />
+				<TextField required label="Telephone Number" type="text" variant="filled" onChange={(e) => (tel.current = e.target.value)} />
+				<TextField required label="Email" type="email" variant="filled" onChange={(e) => (email.current = e.target.value)} />
+				<TextField required label="Password" type="password" variant="filled" onChange={(e) => (password.current = e.target.value)} />
 				<div className="flex flex-col gap-1">
 					<button
 						type="submit"
@@ -70,5 +46,5 @@ export default function Register() {
 				</div>
 			</Center>
 		</form>
-	)
+	);
 }
