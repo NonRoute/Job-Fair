@@ -33,20 +33,8 @@ export default function Login() {
 	return (
 		<form onSubmit={onLogin}>
 			<Center header="Login">
-				<TextField
-					required
-					label="Email"
-					type="email"
-					variant="filled"
-					onChange={(e) => (email.current = e.target.value)}
-				/>
-				<TextField
-					required
-					label="Password"
-					type="password"
-					variant="filled"
-					onChange={(e) => (password.current = e.target.value)}
-				/>
+				<TextField required label="Email" type="email" variant="filled" onChange={(e) => (email.current = e.target.value)} />
+				<TextField required label="Password" type="password" variant="filled" onChange={(e) => (password.current = e.target.value)} />
 				<div className="flex flex-col gap-1">
 					<button
 						type="submit"
