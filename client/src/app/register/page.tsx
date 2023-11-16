@@ -29,10 +29,37 @@ export default function Register() {
 	return (
 		<form onSubmit={onRegister}>
 			<Center header="Register">
-				<TextField required label="Name" type="text" variant="filled" onChange={(e) => (name.current = e.target.value)} />
-				<TextField required label="Telephone Number" type="text" variant="filled" onChange={(e) => (tel.current = e.target.value)} />
-				<TextField required label="Email" type="email" variant="filled" onChange={(e) => (email.current = e.target.value)} />
-				<TextField required label="Password" type="password" variant="filled" onChange={(e) => (password.current = e.target.value)} />
+				<TextField
+					required
+					label="Name"
+					type="text"
+					variant="filled"
+					autoComplete="username"
+					onChange={(e) => (name.current = e.target.value)}
+				/>
+				<TextField
+					required
+					label="Telephone Number"
+					type="text"
+					variant="filled"
+					onChange={(e) => (tel.current = e.target.value)}
+				/>
+				<TextField
+					required
+					label="Email"
+					type="email"
+					variant="filled"
+					autoComplete="email"
+					onChange={(e) => (email.current = e.target.value)}
+				/>
+				<TextField
+					required
+					label="Password"
+					type="password"
+					variant="filled"
+					autoComplete="current-password"
+					onChange={(e) => (password.current = e.target.value)}
+				/>
 				<div className="flex flex-col gap-1">
 					<button
 						type="submit"

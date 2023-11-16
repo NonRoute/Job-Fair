@@ -13,7 +13,7 @@ export default async function CompanyCatalog({ companies }: { companies: Promise
 	if (!session || !session.user.token)
 		return (
 			<div className="m-4 justify-around items-center flex flex-row flex-wrap">
-				{companiesData.map((companyItem) => (
+				{companiesData.map((companyItem, index) => (
 					<ProductCard
 						company={{
 							id: companyItem.id,
@@ -25,6 +25,7 @@ export default async function CompanyCatalog({ companies }: { companies: Promise
 							tel: companyItem.tel,
 							picture: companyItem.picture
 						}}
+						key={index}
 					/>
 				))}
 			</div>
@@ -34,7 +35,7 @@ export default async function CompanyCatalog({ companies }: { companies: Promise
 
 	return (
 		<div className="m-4 grid grid-cols-1 sm:grid-cols-3 gap-6">
-			{companiesData.map((companyItem) => (
+			{companiesData.map((companyItem, index) => (
 				<ProductCard
 					isLogin={true}
 					isAdmin={profile.data.role === "admin"}
@@ -48,6 +49,7 @@ export default async function CompanyCatalog({ companies }: { companies: Promise
 						tel: companyItem.tel,
 						picture: companyItem.picture
 					}}
+					key={index}
 				/>
 			))}
 		</div>

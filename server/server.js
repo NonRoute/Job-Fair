@@ -13,6 +13,7 @@ const hpp = require("hpp");
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
 const bodyParser = require("body-parser");
+const morgan = require('morgan')
 // const nodemailer = require("nodemailer");
 dotenv.config({ path: "./config/config.env" });
 
@@ -22,6 +23,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(mongoSanitize());
+app.use(morgan('dev'))
 app.use(helmet());
 app.use(xss());
 app.use(bodyParser.json());
