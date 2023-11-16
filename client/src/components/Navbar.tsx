@@ -20,7 +20,7 @@ export default function Navbar() {
 					<>
 						<div className="flex gap-4 mx-4 font-semibold">
 							<Link href="/interview">My interview</Link>
-							{session.user.role === 'admin' && <Link href="/create">Create company</Link>}
+							{session.user.role === 'admin' && <Link href="/add-company">Add company</Link>}
 						</div>
 					</>
 				)}
@@ -30,11 +30,7 @@ export default function Navbar() {
 					{session ? (
 						<div className="flex gap-4">
 							<div className="flex gap-2 items-center">
-								{session?.user?.role == 'admin' ? (
-									<BiSolidCrown title="Admin" />
-								) : (
-									<BiSolidUser title="User" />
-								)}
+								{session?.user?.role == 'admin' ? <BiSolidCrown title="Admin" /> : <BiSolidUser title="User" />}
 								<div className="break-all">{session?.user?.name}</div>
 							</div>
 							<button
@@ -47,10 +43,7 @@ export default function Navbar() {
 							</button>
 						</div>
 					) : (
-						<button
-							onClick={() => signIn()}
-							className="border-sky-500 border-2 py-1 px-3 text-sky-600 font-semibold rounded-md hover:bg-slate-200"
-						>
+						<button onClick={() => signIn()} className="border-sky-500 border-2 py-1 px-3 text-sky-600 font-semibold rounded-md hover:bg-slate-200">
 							Login
 						</button>
 					)}
