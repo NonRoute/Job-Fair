@@ -1,9 +1,17 @@
 "use client";
 import Image from "next/image";
 import { CompanyItem } from "@/interface/CompanyItem";
-import CompanyInformationFormat from "./CompanyInformationFormat";
+import Link from "next/link";
 
-export default function ProductCard({ company, isLogin, isAdmin }: { company: CompanyItem; isLogin?: boolean; isAdmin?: boolean }) {
+export default function ProductCard({
+	company,
+	isLogin,
+	isAdmin
+}: {
+	company: CompanyItem;
+	isLogin?: boolean;
+	isAdmin?: boolean;
+}) {
 	return (
 		<div className="bg-white rounded-lg shadow-md overflow-hidden py-4 px-6 gap-2 flex flex-col w-full justify-between h-full">
 			<div>
@@ -14,7 +22,7 @@ export default function ProductCard({ company, isLogin, isAdmin }: { company: Co
 				</div>
 			</div>
 			<div className="flex-shrink-0 w-full h-32 relative">
-				<Image src={company.picture} alt="company picture" layout="fill" objectFit="contain" />
+				<Image src={company.picture} alt="company picture" layout="fill" className="object-contain" />
 			</div>
 
 			<div className="gap-2 flex flex-col">
@@ -30,14 +38,13 @@ export default function ProductCard({ company, isLogin, isAdmin }: { company: Co
 					<></>
 				)}
 				{isAdmin ? (
-					<button
+					<Link
+						href={"/edit-company"}
 						type="submit"
-						className="bg-white py-2 px-3 text-cyan-500 font-semibold rounded-md border-2 border-cyan-500
-                    hover:bg-gradient-to-br hover:from-neutral-200 hover:to-stone-200 hover:text-white hover:border-stone-200 
-                    hover:text-stone-400 text-lg"
+						className="bg-white py-2 px-3 text-cyan-500 font-semibold rounded-md border-2 border-cyan-500 hover:bg-slate-200 text-lg text-center"
 					>
 						Edit company
-					</button>
+					</Link>
 				) : (
 					<></>
 				)}
