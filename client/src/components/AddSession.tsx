@@ -2,12 +2,13 @@
 import { useEffect, useState } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import addSession from "@/libs/addSession";
 import { toast } from "react-toastify";
 import getBookings from "@/libs/getBookings";
 import { FaUser } from "react-icons/fa";
 import Link from "next/link";
+import React from "react";
 
 export default function AddSession({ userToken, id }: { userToken: string; id: string }) {
 	const [date, setDate] = useState<Date | null>();
@@ -22,9 +23,9 @@ export default function AddSession({ userToken, id }: { userToken: string; id: s
 				bookingDate.setHours(dayjs(timeStart).get("hour"), dayjs(timeStart).get("minute"))
 			);
 			const bookingEnd = new Date(bookingDate.setHours(dayjs(timeEnd).get("hour"), dayjs(timeEnd).get("minute")));
-			console.log(bookingDate, bookingStart, bookingEnd);
 			await addSession(userToken, id, bookingStart, bookingEnd);
 			fetchData();
+			toast.success("Add session success");
 		} else {
 			toast.error("Error adding session");
 		}
@@ -36,8 +37,6 @@ export default function AddSession({ userToken, id }: { userToken: string; id: s
 	useEffect(() => {
 		fetchData();
 	}, []);
-
-	console.log(sessions);
 
 	return (
 		<>
@@ -78,8 +77,9 @@ export default function AddSession({ userToken, id }: { userToken: string; id: s
 					>
 						Add
 					</button>
-					<div className="font-semibold text-3xl pt-2">Session lists</div>
 					<div className="flex flex-wrap gap-2">
+						<div className="font-semibold text-3xl pt-2">Session lists</div>
+						{sessions.length == 0 && <div className="w-full mt-2">No interview session added</div>}
 						{sessions
 							.sort((a, b) => new Date(a.bookingStart).getTime() - new Date(b.bookingStart).getTime())
 							.map((session, index) => {
@@ -89,7 +89,7 @@ export default function AddSession({ userToken, id }: { userToken: string; id: s
 										sessions[index - 1].bookingStart.split("T")[0]
 								) {
 									return (
-										<>
+										<React.Fragment key={index}>
 											<div className="font-bold w-full text-sky-600 mt-2 text-lg">
 												{new Date(session.bookingStart).toLocaleDateString("en-GB", {
 													year: "numeric",
@@ -98,10 +98,10 @@ export default function AddSession({ userToken, id }: { userToken: string; id: s
 												})}
 											</div>
 											<SessionSlot session={session} />
-										</>
+										</React.Fragment>
 									);
 								}
-								return <SessionSlot session={session} />;
+								return <SessionSlot session={session} key={index} />;
 							})}
 					</div>
 				</div>

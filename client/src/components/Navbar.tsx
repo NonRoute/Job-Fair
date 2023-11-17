@@ -4,7 +4,6 @@ import Link from "next/link";
 import { PiBagFill } from "react-icons/pi";
 import { BiSolidCrown, BiSolidUser } from "react-icons/bi";
 import { usePathname } from "next/navigation";
-import { toast } from "react-toastify";
 
 export default function Navbar() {
 	const { data: session, status } = useSession();
