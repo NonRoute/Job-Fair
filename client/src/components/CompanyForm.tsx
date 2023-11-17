@@ -6,10 +6,9 @@ import { useRouter } from "next/navigation";
 import createCompany from "@/libs/createCompany";
 import editCompany from "@/libs/editCompany";
 import getCompany from "@/libs/getCompany";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker, LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
+import AddSession from "./AddSession";
 
-export default function CompanyForm({ userToken, mode, id }: { userToken: string; mode: string; id?: string }) {
+export default function CompanyForm({ userToken, mode, id }: { userToken: string; mode: string; id: string }) {
 	const router = useRouter();
 	const [name, setName] = useState<string>("");
 	const [business, setBusiness] = useState<string>("");
@@ -189,39 +188,7 @@ export default function CompanyForm({ userToken, mode, id }: { userToken: string
 						{mode == "add" ? <>Create</> : <>Save</>}
 					</button>
 				</div>
-				{mode == "edit" && (
-					<>
-						<div className="text-5xl font-bold text-white my-4 pt-2">Interview Session</div>
-						<LocalizationProvider dateAdapter={AdapterDayjs}>
-							<div className="bg-white rounded-md shadow p-8 gap-6 flex flex-col">
-								<div className="font-semibold text-3xl">Add Session</div>
-								<DatePicker
-									className="w-1/2 pr-3"
-									label="Date"
-									slotProps={{ textField: { variant: "filled" } }}
-								/>
-								<div className="flex gap-6">
-									<TimePicker
-										className="w-full"
-										label="Time start"
-										slotProps={{ textField: { variant: "filled" } }}
-									/>
-									<TimePicker
-										className="w-full"
-										label="Time end"
-										slotProps={{ textField: { variant: "filled" } }}
-									/>
-								</div>
-								<button
-									type="submit"
-									className="bg-gradient-to-br from-cyan-500 to-sky-600 hover:from-cyan-400 hover:to-sky-500 py-2 px-3 text-white font-semibold rounded-md hover:bg-slate-200 text-lg"
-								>
-									Add
-								</button>
-							</div>
-						</LocalizationProvider>
-					</>
-				)}
+				{mode == "edit" && <AddSession userToken={userToken} id={id} />}
 			</div>
 		</form>
 	);
