@@ -1,35 +1,68 @@
 "use client";
-import { useRef } from "react";
+import { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import createCompany from "@/libs/createCompany";
 import editCompany from "@/libs/editCompany";
+import getCompany from "@/libs/getCompany";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
 
 export default function CompanyForm({ userToken, mode, id }: { userToken: string; mode: string; id?: string }) {
 	const router = useRouter();
-	const name = useRef("");
-	const business = useRef("");
-	const address = useRef("");
-	const province = useRef("");
-	const postalcode = useRef("");
-	const tel = useRef("");
-	const picture = useRef("");
+	const [name, setName] = useState<string>("");
+	const [business, setBusiness] = useState<string>("");
+	const [address, setAddress] = useState<string>("");
+	const [province, setProvince] = useState<string>("");
+	const [postalcode, setPostalcode] = useState<string>("");
+	const [tel, setTel] = useState<string>("");
+	const [picture, setPicture] = useState<string>("");
+	const [loading, setLoading] = useState<boolean>(false);
+
+	useEffect(() => {
+		if (mode === "edit" && id) {
+			setLoading(true);
+			getCompany(id)
+				.then((company) => {
+					// console.log(company.data);
+					setName(company.data.name);
+					setBusiness(company.data.business);
+					setAddress(company.data.address);
+					setProvince(company.data.province);
+					setPostalcode(company.data.postalcode);
+					setTel(company.data.tel);
+					setPicture(company.data.picture);
+				})
+				.catch((error) => {
+					console.error("Error fetching company details:", error);
+				})
+				.finally(() => {
+					setLoading(false);
+				});
+		}
+	}, []);
+
+	if (mode === "edit" && !id) {
+		return <>Incorrect parameter</>;
+	}
+
+	if (loading) {
+		return <>Loading...</>;
+	}
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault(); // Prevent the default form submission behavior
 		if (mode === "add") {
 			try {
 				const response = await createCompany(userToken, {
-					name: name.current,
-					address: address.current,
-					business: business.current,
-					province: province.current,
-					postalcode: postalcode.current,
-					tel: tel.current,
-					picture: picture.current
+					name: name,
+					address: address,
+					business: business,
+					province: province,
+					postalcode: postalcode,
+					tel: tel,
+					picture: picture
 				});
 				if (response?.success) {
 					toast.success("Add Company Data success");
@@ -48,13 +81,14 @@ export default function CompanyForm({ userToken, mode, id }: { userToken: string
 					throw new Error("No Company ID given");
 				}
 				const response = await editCompany(userToken, {
-					name: name.current,
-					address: address.current,
-					business: business.current,
-					province: province.current,
-					postalcode: postalcode.current,
-					tel: tel.current,
-					picture: picture.current
+					id: id,
+					name: name,
+					address: address,
+					business: business,
+					province: province,
+					postalcode: postalcode,
+					tel: tel,
+					picture: picture
 				});
 				if (response?.success) {
 					toast.success("Edit Company Data success");
@@ -83,49 +117,70 @@ export default function CompanyForm({ userToken, mode, id }: { userToken: string
 						label="Name"
 						type="text"
 						variant="filled"
-						onChange={(e) => (name.current = e.target.value)}
+						value={name}
+						onChange={(e) => {
+							setName(e.target.value);
+						}}
 					/>
 					<TextField
 						required
 						label="Business"
 						type="text"
 						variant="filled"
-						onChange={(e) => (business.current = e.target.value)}
+						value={business}
+						onChange={(e) => {
+							setBusiness(e.target.value);
+						}}
 					/>
 					<TextField
 						required
 						label="Address"
 						type="text"
 						variant="filled"
-						onChange={(e) => (address.current = e.target.value)}
+						value={address}
+						onChange={(e) => {
+							setAddress(e.target.value);
+						}}
 					/>
 					<TextField
 						required
 						label="Province"
 						type="text"
 						variant="filled"
-						onChange={(e) => (province.current = e.target.value)}
+						value={province}
+						onChange={(e) => {
+							setProvince(e.target.value);
+						}}
 					/>
 					<TextField
 						required
 						label="Postalcode"
 						type="text"
 						variant="filled"
-						onChange={(e) => (postalcode.current = e.target.value)}
+						value={postalcode}
+						onChange={(e) => {
+							setPostalcode(e.target.value);
+						}}
 					/>
 					<TextField
 						required
 						label="Tel"
 						type="tel"
 						variant="filled"
-						onChange={(e) => (tel.current = e.target.value)}
+						value={tel}
+						onChange={(e) => {
+							setTel(e.target.value);
+						}}
 					/>
 					<TextField
 						required
 						label="Picture (URL)"
 						type="url"
 						variant="filled"
-						onChange={(e) => (picture.current = e.target.value)}
+						value={picture}
+						onChange={(e) => {
+							setPicture(e.target.value);
+						}}
 					/>
 					<button
 						type="submit"

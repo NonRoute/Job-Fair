@@ -39,7 +39,7 @@ export default function ProductCard({
 				)}
 				{isAdmin ? (
 					<Link
-						href={"/edit-company"}
+						href={`/edit-company/${company.id}`}
 						type="submit"
 						className="bg-white py-2 px-3 text-cyan-500 font-semibold rounded-md border-2 border-cyan-500 hover:bg-slate-200 text-lg text-center"
 					>
