@@ -1,19 +1,17 @@
+"use client";
 import ProductCard from "./ProductCard";
 import { CompanyItem } from "@/interface/CompanyItem";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import getUserProfile from "@/libs/getUserProfile";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
-export default async function CompanyCatalog({ companies }: { companies: Promise<any> }) {
-	const companiesReady = await companies;
-	const companiesData: CompanyItem[] = companiesReady.data;
-
-	const session = await getServerSession(authOptions);
+export default function CompanyCatalog({ companies }: { companies: Array<CompanyItem> }) {
+	const { data: session, status } = useSession();
 	// Refactor this code
 	if (!session || !session.user.token)
 		return (
 			<div className="m-4 justify-around items-center flex flex-row flex-wrap">
-				{companiesData.map((companyItem, index) => (
+				{companies.map((companyItem, index) => (
 					<ProductCard
 						company={{
 							id: companyItem.id,
@@ -31,14 +29,22 @@ export default async function CompanyCatalog({ companies }: { companies: Promise
 			</div>
 		);
 
-	const profile = await getUserProfile(session.user.token);
+	const [profile, setProfile] = useState<any>("");
+
+	const fetchData = async () => {
+		setProfile(await getUserProfile(session.user.token));
+	};
+
+	useEffect(() => {
+		fetchData();
+	}, []);
 
 	return (
 		<div className="m-4 grid grid-cols-1 sm:grid-cols-3 gap-6">
-			{companiesData.map((companyItem, index) => (
+			{companies.map((companyItem, index) => (
 				<ProductCard
 					isLogin={true}
-					isAdmin={profile.data.role === "admin"}
+					isAdmin={profile.data?.role === "admin"}
 					company={{
 						id: companyItem.id,
 						name: companyItem.name,

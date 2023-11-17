@@ -22,7 +22,7 @@ export default function ProductCard({
 				</div>
 			</div>
 			<div className="flex-shrink-0 w-full h-32 relative">
-				<Image src={company.picture} alt="company picture" layout="fill" className="object-contain" />
+				<Image src={company.picture} alt="company picture" fill={true} className="object-contain" />
 			</div>
 
 			<div className="gap-2 flex flex-col">
