@@ -36,7 +36,7 @@ export function SessionList({ sessions }: { sessions: Array<any> }) {
 export function SessionSlot({ session }: { session: any }) {
 	return (
 		<Link
-			href={"/"}
+			href={`/edit-session/${session._id}`}
 			className={`flex gap-2 items-center justify-center border-2 border-sky-600 rounded-lg p-1 font-semibold w-[130px] ${
 				session.user ? "text-white bg-sky-600 hover:bg-sky-500" : "text-sky-600 hover:bg-slate-200"
 			}`}

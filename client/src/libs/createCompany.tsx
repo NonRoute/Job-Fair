@@ -1,4 +1,4 @@
-import { CompanyItem } from "@/interface/CompanyItem";
+import { CompanyItem } from "@/interface/Interface";
 
 export default async function createCompany(token: string, company: CompanyItem) {
 	const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;

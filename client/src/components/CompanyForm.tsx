@@ -9,7 +9,15 @@ import getCompany from "@/libs/getCompany";
 import deleteCompany from "@/libs/deleteCompany";
 import AddSession from "./AddSession";
 
-export default function CompanyForm({ userToken, mode, id }: { userToken: string; mode: string; id?: string }) {
+export default function CompanyForm({
+	userToken,
+	mode,
+	companyId
+}: {
+	userToken: string;
+	mode: string;
+	companyId?: string;
+}) {
 	const router = useRouter();
 	const [name, setName] = useState<string>("");
 	const [business, setBusiness] = useState<string>("");
@@ -21,9 +29,9 @@ export default function CompanyForm({ userToken, mode, id }: { userToken: string
 	const [loading, setLoading] = useState<boolean>(false);
 
 	useEffect(() => {
-		if (mode === "edit" && id) {
+		if (mode === "edit" && companyId) {
 			setLoading(true);
-			getCompany(id)
+			getCompany(companyId)
 				.then((company) => {
 					// console.log(company.data);
 					setName(company.data.name);
@@ -43,7 +51,7 @@ export default function CompanyForm({ userToken, mode, id }: { userToken: string
 		}
 	}, []);
 
-	if (mode === "edit" && !id) {
+	if (mode === "edit" && !companyId) {
 		return <>Incorrect parameter</>;
 	}
 
@@ -77,11 +85,11 @@ export default function CompanyForm({ userToken, mode, id }: { userToken: string
 		}
 		if (mode === "edit") {
 			try {
-				if (!id) {
+				if (!companyId) {
 					throw new Error("No Company ID given");
 				}
 				const response = await editCompany(userToken, {
-					id: id,
+					id: companyId,
 					name: name,
 					address: address,
 					business: business,
@@ -108,10 +116,10 @@ export default function CompanyForm({ userToken, mode, id }: { userToken: string
 	const handleDeleteCompany = async (e: any) => {
 		e.preventDefault();
 		try {
-			if (!id) {
+			if (!companyId) {
 				throw new Error("No Company ID given");
 			}
-			const response = await deleteCompany(userToken, id);
+			const response = await deleteCompany(userToken, companyId);
 			if (response?.success) {
 				toast.success("Delete Company Data success");
 				// Should add delay to make UX better
@@ -217,7 +225,7 @@ export default function CompanyForm({ userToken, mode, id }: { userToken: string
 					{mode == "add" ? <>Create</> : <>Save</>}
 				</button>
 			</form>
-			{mode == "edit" && id && <AddSession userToken={userToken} id={id} />}
+			{mode == "edit" && companyId && <AddSession userToken={userToken} companyId={companyId} />}
 		</div>
 	);
 }

@@ -85,14 +85,13 @@ exports.getBooking = async (req, res, next) => {
 			});
 		}
 
-		if (booking.user.toString() !== req.user.id && req.user.role !== "admin") {
-			return res.status(401).json({
-				success: false,
-				message: `User ${req.user.id} is not authorized to view this booking`
-			});
+		if (req.user.role == "admin" || (booking.user && booking.user.toString() == req.user.id)) {
+			return res.status(200).json({ success: true, data: booking });
 		}
-
-		res.status(200).json({ success: true, data: booking });
+		return res.status(401).json({
+			success: false,
+			message: `User ${req.user.id} is not authorized to view this booking`
+		});
 	} catch (error) {
 		console.log(error);
 		return res.status(500).json({ success: false, message: "Cannot find Booking" });
@@ -198,20 +197,20 @@ exports.updateBooking = async (req, res, next) => {
 				message: `No booking with the id of ${req.params.id}`
 			});
 		}
-		if (booking.user.toString() !== req.user.id && req.user.role !== "admin") {
-			return res.status(401).json({
-				success: false,
-				message: `User ${req.user.id} is not authorized to update this booking`
+
+		if (req.user.role == "admin" || (booking.user && booking.user.toString() == req.user.id)) {
+			booking = await Booking.findByIdAndUpdate(req.params.id, req.body, {
+				new: true,
+				runValidators: true
+			});
+			return res.status(200).json({
+				success: true,
+				data: booking
 			});
 		}
-
-		booking = await Booking.findByIdAndUpdate(req.params.id, req.body, {
-			new: true,
-			runValidators: true
-		});
-		res.status(200).json({
-			success: true,
-			data: booking
+		return res.status(401).json({
+			success: false,
+			message: `User ${req.user.id} is not authorized to update this booking`
 		});
 	} catch (error) {
 		console.log(error);
@@ -234,14 +233,15 @@ exports.deleteBooking = async (req, res, next) => {
 				message: `No booking with the id of ${req.params.id}`
 			});
 		}
-		if (booking.user.toString() !== req.user.id && req.user.role !== "admin") {
-			return res.status(401).json({
-				success: false,
-				message: `User ${req.user.id} is not authorized to delete this booking`
-			});
+
+		if (req.user.role == "admin" || (booking.user && booking.user.toString() == req.user.id)) {
+			await booking.remove();
+			return res.status(200).json({ success: true, data: {} });
 		}
-		await booking.remove();
-		res.status(200).json({ success: true, data: {} });
+		return res.status(401).json({
+			success: false,
+			message: `User ${req.user.id} is not authorized to delete this booking`
+		});
 	} catch (error) {
 		console.log(error);
 		return res.status(500).json({

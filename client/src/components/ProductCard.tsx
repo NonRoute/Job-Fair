@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { CompanyItem } from "@/interface/CompanyItem";
+import { CompanyItem } from "@/interface/Interface";
 import Link from "next/link";
 
 export default function ProductCard({

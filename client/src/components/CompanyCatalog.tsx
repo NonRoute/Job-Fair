@@ -1,6 +1,6 @@
 "use client";
 import ProductCard from "./ProductCard";
-import { CompanyItem } from "@/interface/CompanyItem";
+import { CompanyItem } from "@/interface/Interface";
 import getUserProfile from "@/libs/getUserProfile";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";

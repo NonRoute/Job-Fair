@@ -3,11 +3,11 @@ import SessionForm from "./SessionForm"; // adjust the import path
 import { SessionList } from "./SessionList"; // adjust the import path
 import getBookings from "@/libs/getBookings";
 
-export default function AddSession({ userToken, id }: { userToken: string; id: string }) {
+export default function AddSession({ userToken, companyId }: { userToken: string; companyId: string }) {
 	const [sessions, setSessions] = useState<Array<any>>([]);
 
 	const fetchData = async () => {
-		setSessions((await getBookings(userToken, id)).data);
+		setSessions((await getBookings(userToken, companyId)).data);
 	};
 
 	useEffect(() => {
@@ -22,7 +22,12 @@ export default function AddSession({ userToken, id }: { userToken: string; id: s
 		<>
 			<div className="text-5xl font-bold text-white my-4 pt-2">Interview Session</div>
 			<div className="p-8 gap-8 bg-white rounded-md shadow flex flex-col">
-				<SessionForm userToken={userToken} id={id} onSessionAdded={handleSessionAdded} />
+				<SessionForm
+					userToken={userToken}
+					companyId={companyId}
+					onSessionAddedOrCreated={handleSessionAdded}
+					mode="add"
+				/>
 				<SessionList sessions={sessions} />
 			</div>
 		</>

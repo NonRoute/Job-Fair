@@ -1,6 +1,6 @@
 "use client";
 import CompanyCatalog from "@/components/CompanyCatalog";
-import { CompanyItem } from "@/interface/CompanyItem";
+import { CompanyItem } from "@/interface/Interface";
 import getCompanies from "@/libs/getCompanies";
 import { useEffect, useState } from "react";
 
@@ -10,7 +10,7 @@ export default function Home() {
 	const fetchData = async () => {
 		setCompanies((await getCompanies()).data);
 	};
-	
+
 	useEffect(() => {
 		fetchData();
 	}, []);
