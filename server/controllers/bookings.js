@@ -136,14 +136,6 @@ exports.assignBooking = async (req, res, next) => {
 					runValidators: true
 				}
 			);
-
-			// User.findById(req.user.id, function (err, user) {
-			// 	if (err) {
-			// 		console.log(err)
-			// 	} else {
-			// 		sendMail(user, booking)
-			// 	}
-			// })
 			return res.status(200).json({
 				success: true,
 				data: booking
@@ -154,6 +146,48 @@ exports.assignBooking = async (req, res, next) => {
 		return res.status(500).json({
 			success: false,
 			message: "Cannot create Booking"
+		});
+	}
+};
+
+//@desc     Remove interviewee out from session
+//@route    DELETE /api/v1/bookings/assign/:id
+//@access   Private
+exports.removeBooking = async (req, res, next) => {
+	try {
+		let booking = await Booking.findById(req.params.id);
+		if (!booking) {
+			return res.status(404).json({
+				success: false,
+				message: `No booking with the id of ${req.params.id}`
+			});
+		}
+		// Check if the booking already has a user
+		if (!booking.user) {
+			return res.status(400).json({
+				success: false,
+				message: `Booking with ID ${req.params.id} does not have an interviewee to remove`
+			});
+		}
+
+		if (req.user.role == "admin" || (booking.user && booking.user.toString() == req.user.id)) {
+			// Remove the user from the booking
+			booking.user = undefined;
+			await booking.save();
+			return res.status(200).json({
+				success: true,
+				data: booking
+			});
+		}
+		return res.status(401).json({
+			success: false,
+			message: `User ${req.user.id} is not authorized to update this booking`
+		});
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({
+			success: false,
+			message: "Error removing user from Booking"
 		});
 	}
 };

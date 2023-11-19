@@ -65,6 +65,7 @@ const {
 	getBookings,
 	getBooking,
 	assignBooking,
+	removeBooking,
 	updateBooking,
 	deleteBooking,
 	addSession
@@ -140,7 +141,10 @@ router.route("/").get(protect, getBookings);
  *         description: Some server error
  */
 
-router.route("/assign/:id").put(protect, authorize("admin", "user"), assignBooking);
+router
+	.route("/assign/:id")
+	.put(protect, authorize("admin", "user"), assignBooking)
+	.delete(protect, authorize("admin", "user"), removeBooking);
 
 /**
  * @swagger
