@@ -7,5 +7,6 @@ export default async function Edit({ params }: { params: { sid: string } }) {
 	const session = await getServerSession(authOptions);
 	if (!session || !session.user.token) return null;
 	const profile = await getUserProfile(session.user.token);
+	if (profile.data.role != "admin") return <div>No permission</div>;
 	return <EditSession userToken={session.user.token} bookingId={params.sid} />;
 }

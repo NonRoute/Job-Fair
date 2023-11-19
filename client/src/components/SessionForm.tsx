@@ -4,20 +4,20 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
 import addSession from "@/libs/addSession";
-import editBooking from "@/libs/editBooking";
+import editSession from "@/libs/editSession";
 import getBooking from "@/libs/getBooking";
 
 export default function SessionForm({
 	userToken,
 	companyId,
 	bookingId,
-	onSessionAddedOrCreated,
+	onSessionAddedOrEdited,
 	mode
 }: {
 	userToken: string;
 	companyId?: string;
 	bookingId?: string;
-	onSessionAddedOrCreated: () => void;
+	onSessionAddedOrEdited: () => void;
 	mode: string;
 }) {
 	const [date, setDate] = useState<Date | null>(null);
@@ -35,6 +35,7 @@ export default function SessionForm({
 					setDate(dayjs(bookingStart));
 					setTimeStart(dayjs(bookingStart));
 					setTimeEnd(dayjs(bookingEnd));
+					onSessionAddedOrEdited();
 				})
 				.catch((error) => {
 					console.error("Error fetching booking details:", error);
@@ -63,7 +64,7 @@ export default function SessionForm({
 						throw new Error("No Company ID given");
 					}
 					await addSession(userToken, companyId, bookingStart, bookingEnd);
-					onSessionAddedOrCreated();
+					onSessionAddedOrEdited();
 					toast.success("Add session success");
 				} catch (error) {
 					toast.error("Error adding session");
@@ -74,8 +75,8 @@ export default function SessionForm({
 					if (!bookingId) {
 						throw new Error("No Booking ID given");
 					}
-					await editBooking(userToken, bookingId, bookingStart, bookingEnd);
-					onSessionAddedOrCreated();
+					await editSession(userToken, bookingId, bookingStart, bookingEnd);
+					onSessionAddedOrEdited();
 					toast.success("Add edit success");
 				} catch (error) {
 					toast.error("Error edit session");
@@ -85,52 +86,6 @@ export default function SessionForm({
 			}
 		} else {
 			toast.error("Error manage session");
-		}
-	};
-
-	const onAdd = async (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault();
-		if (date && timeStart && timeEnd && dayjs(timeEnd).isAfter(timeStart)) {
-			const bookingDate = new Date(dayjs(date).format("YYYY-MM-DD"));
-			const bookingStart = new Date(
-				bookingDate.setHours(dayjs(timeStart).get("hour"), dayjs(timeStart).get("minute"))
-			);
-			const bookingEnd = new Date(bookingDate.setHours(dayjs(timeEnd).get("hour"), dayjs(timeEnd).get("minute")));
-			try {
-				if (!companyId) {
-					throw new Error("No Company ID given");
-				}
-				await addSession(userToken, companyId, bookingStart, bookingEnd);
-				onSessionAddedOrCreated();
-				toast.success("Add session success");
-			} catch (error) {
-				toast.error("Error adding session");
-			}
-		} else {
-			toast.error("Error adding session");
-		}
-	};
-
-	const onEdit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault();
-		if (date && timeStart && timeEnd && dayjs(timeEnd).isAfter(timeStart)) {
-			const bookingDate = new Date(dayjs(date).format("YYYY-MM-DD"));
-			const bookingStart = new Date(
-				bookingDate.setHours(dayjs(timeStart).get("hour"), dayjs(timeStart).get("minute"))
-			);
-			const bookingEnd = new Date(bookingDate.setHours(dayjs(timeEnd).get("hour"), dayjs(timeEnd).get("minute")));
-			try {
-				if (!bookingId) {
-					throw new Error("No Booking ID given");
-				}
-				await editBooking(userToken, bookingId, bookingStart, bookingEnd);
-				onSessionAddedOrCreated();
-				toast.success("Add edit success");
-			} catch (error) {
-				toast.error("Error edit session");
-			}
-		} else {
-			toast.error("Error edit session");
 		}
 	};
 
