@@ -1,8 +1,7 @@
 import React from "react";
-import { FaUser } from "react-icons/fa";
-import Link from "next/link";
+import { SessionSlot } from "./SessionSlot";
 
-export function SessionList({ sessions }: { sessions: Array<any> }) {
+export function SessionList({ sessions, mode }: { sessions: Array<any>; mode: string }) {
 	return (
 		<div className="flex flex-wrap gap-2">
 			<div className="font-semibold text-3xl pt-2">Session lists</div>
@@ -23,30 +22,12 @@ export function SessionList({ sessions }: { sessions: Array<any> }) {
 										day: "numeric"
 									})}
 								</div>
-								<SessionSlot session={session} />
+								<SessionSlot session={session} mode={mode} />
 							</React.Fragment>
 						);
 					}
-					return <SessionSlot session={session} key={index} />;
+					return <SessionSlot session={session} key={index} mode={mode} />;
 				})}
 		</div>
-	);
-}
-
-export function SessionSlot({ session }: { session: any }) {
-	return (
-		<Link
-			href={`/edit-session/${session._id}`}
-			className={`flex gap-2 items-center justify-center border-2 border-sky-600 rounded-lg p-1 font-semibold w-[130px] ${
-				session.user ? "text-white bg-sky-600 hover:bg-sky-500" : "text-sky-600 hover:bg-slate-200"
-			}`}
-			key={session._id}
-		>
-			{session.user && <FaUser />}
-			{new Date(session.bookingStart).getHours()}:
-			{new Date(session.bookingStart).getMinutes().toString().padStart(2, "0")} -{" "}
-			{new Date(session.bookingEnd).getHours()}:
-			{new Date(session.bookingEnd).getMinutes().toString().padStart(2, "0")}
-		</Link>
 	);
 }

@@ -10,7 +10,7 @@ export default function CompanyCatalog({ companies }: { companies: Array<Company
 	// Refactor this code
 	if (!session || !session.user.token)
 		return (
-			<div className="m-4 justify-around items-center flex flex-row flex-wrap">
+			<div className="m-4 grid grid-cols-1 sm:grid-cols-3 gap-6">
 				{companies.map((companyItem, index) => (
 					<ProductCard
 						company={{

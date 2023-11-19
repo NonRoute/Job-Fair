@@ -36,10 +36,6 @@ export default function EditSession({ userToken, bookingId }: { userToken: strin
 		fetchData();
 	}, []);
 
-	const handleSessionEdited = () => {
-		fetchData(); // refetch sessions after edit
-	};
-
 	const handleDeleteSession = async (e: any) => {
 		e.preventDefault();
 		try {
@@ -93,12 +89,7 @@ export default function EditSession({ userToken, bookingId }: { userToken: strin
 				</button>
 			</form>
 			<div className="px-8 pb-8 bg-white rounded-md shadow">
-				<SessionForm
-					userToken={userToken}
-					bookingId={bookingId}
-					mode="edit"
-					onSessionAddedOrEdited={handleSessionEdited}
-				/>
+				<SessionForm userToken={userToken} bookingId={bookingId} mode="edit" onSessionAdded={() => {}} />
 			</div>
 			<form
 				onSubmit={handleDeleteInterviewee}

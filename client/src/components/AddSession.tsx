@@ -25,10 +25,10 @@ export default function AddSession({ userToken, companyId }: { userToken: string
 				<SessionForm
 					userToken={userToken}
 					companyId={companyId}
-					onSessionAddedOrEdited={handleSessionAdded}
+					onSessionAdded={handleSessionAdded}
 					mode="add"
 				/>
-				<SessionList sessions={sessions} />
+				<SessionList sessions={sessions} mode="add" />
 			</div>
 		</>
 	);

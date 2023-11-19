@@ -11,13 +11,13 @@ export default function SessionForm({
 	userToken,
 	companyId,
 	bookingId,
-	onSessionAddedOrEdited,
+	onSessionAdded,
 	mode
 }: {
 	userToken: string;
 	companyId?: string;
 	bookingId?: string;
-	onSessionAddedOrEdited: () => void;
+	onSessionAdded: () => void;
 	mode: string;
 }) {
 	const [date, setDate] = useState<Date | null>(null);
@@ -35,7 +35,6 @@ export default function SessionForm({
 					setDate(dayjs(bookingStart));
 					setTimeStart(dayjs(bookingStart));
 					setTimeEnd(dayjs(bookingEnd));
-					onSessionAddedOrEdited();
 				})
 				.catch((error) => {
 					console.error("Error fetching booking details:", error);
@@ -64,7 +63,7 @@ export default function SessionForm({
 						throw new Error("No Company ID given");
 					}
 					await addSession(userToken, companyId, bookingStart, bookingEnd);
-					onSessionAddedOrEdited();
+					onSessionAdded();
 					toast.success("Add session success");
 				} catch (error) {
 					toast.error("Error adding session");
@@ -76,8 +75,7 @@ export default function SessionForm({
 						throw new Error("No Booking ID given");
 					}
 					await editSession(userToken, bookingId, bookingStart, bookingEnd);
-					onSessionAddedOrEdited();
-					toast.success("Add edit success");
+					toast.success("Edit success");
 				} catch (error) {
 					toast.error("Error edit session");
 				}
