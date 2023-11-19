@@ -25,7 +25,7 @@ export default function AddSession({ userToken, companyId }: { userToken: string
 				<SessionForm
 					userToken={userToken}
 					companyId={companyId}
-					onSessionAddedOrCreated={handleSessionAdded}
+					onSessionAddedOrEdited={handleSessionAdded}
 					mode="add"
 				/>
 				<SessionList sessions={sessions} />
