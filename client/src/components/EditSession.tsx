@@ -8,17 +8,6 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { FaUser } from "react-icons/fa";
 
-// interface CompanyItem {
-// 	id?: string;
-// 	name: string;
-// 	business: string;
-// 	address: string;
-// 	province: string;
-// 	postalcode: string;
-// 	tel: string;
-// 	picture: string;
-// }
-
 export default function EditSession({ userToken, bookingId }: { userToken: string; bookingId: string }) {
 	const [interviewee, setInterviewee] = useState<string>("No Interviewee book this session");
 	const router = useRouter();
@@ -99,12 +88,12 @@ export default function EditSession({ userToken, bookingId }: { userToken: strin
 				<button
 					type="submit"
 					disabled={interviewee == "No Interviewee book this session"}
-					className={`bg-white py-1 px-3 text-red-500 font-semibold rounded-md 
-                        border-2 border-red-500 ${
-							interviewee == "No Interviewee book this session"
-								? "bg-gray-300 text-white cursor-not-allowed"
-								: "hover:bg-slate-200"
-						} text-lg text-center`}
+					className={`py-1 px-3 font-semibold rounded-md border-2
+					${
+						interviewee == "No Interviewee book this session"
+							? "bg-gray-300 text-white cursor-not-allowed border-gray-300"
+							: "text-red-500 bg-white hover:bg-slate-200 border-red-500"
+					} text-lg text-center`}
 				>
 					Remove Interviewee
 				</button>

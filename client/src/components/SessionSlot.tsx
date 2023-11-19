@@ -17,7 +17,7 @@ export function SessionSlot({
 			<Link
 				href={`/edit-session/${session._id}`}
 				className={`flex gap-2 items-center justify-center border-2 border-sky-600 rounded-lg p-1 font-semibold w-[130px] 
-				${session.user ? "text-white bg-red-600 hover:bg-red-500" : "text-sky-600 hover:bg-slate-200"}`}
+				${session.user ? "text-white bg-sky-600 hover:bg-sky-500" : "text-sky-600 hover:bg-slate-200"}`}
 				key={session._id}
 			>
 				{session.user && <FaUser />}

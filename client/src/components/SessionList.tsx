@@ -87,23 +87,27 @@ export function SessionList({
 						);
 					})}
 			</div>
-			<form
-				onSubmit={handleBookingSubmit}
-				className="text-5xl font-bold text-white mb-4 flex flex-col items-center justify-center"
-			>
-				<button
-					type="submit"
-					disabled={!activeSessionId}
-					className={` py-2 px-3 font-semibold rounded-md text-lg 
-      ${
-			!activeSessionId
-				? "bg-gray-300 cursor-not-allowed"
-				: "bg-gradient-to-br from-cyan-500 to-sky-600 hover:from-cyan-400 hover:to-sky-500 hover:bg-slate-200 "
-		}`}
+			{sessions.length === 0 || mode == "add" ? (
+				<></>
+			) : (
+				<form
+					onSubmit={handleBookingSubmit}
+					className="text-5xl font-bold text-white mt-4 flex flex-col items-center justify-center"
 				>
-					Confirm Booking
-				</button>
-			</form>
+					<button
+						type="submit"
+						disabled={!activeSessionId}
+						className={` py-2 px-20 font-semibold rounded-md text-lg 
+						${
+							!activeSessionId
+								? "bg-gray-300 cursor-not-allowed"
+								: "bg-gradient-to-br from-cyan-500 to-sky-600 hover:from-cyan-400 hover:to-sky-500 hover:bg-slate-200 "
+						}`}
+					>
+						Confirm Booking
+					</button>
+				</form>
+			)}
 		</div>
 	);
 }

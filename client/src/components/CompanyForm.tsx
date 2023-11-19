@@ -138,14 +138,20 @@ export default function CompanyForm({
 				onSubmit={handleDeleteCompany}
 				className="text-5xl font-bold text-white mb-4 flex flex-row justify-between"
 			>
-				{mode == "add" ? "Add company" : "Edit company"}
-				<button
-					type="submit"
-					className="bg-white py-1 px-3 text-red-500 font-semibold rounded-md 
+				{mode == "add" ? (
+					<>Add company</>
+				) : (
+					<>
+						Edit company
+						<button
+							type="submit"
+							className="bg-white py-1 px-3 text-red-500 font-semibold rounded-md 
 							border-2 border-red-500 hover:bg-slate-200 text-lg text-center"
-				>
-					Delete Company
-				</button>
+						>
+							Delete Company
+						</button>
+					</>
+				)}
 			</form>
 			<form onSubmit={handleSubmit} className="bg-white rounded-md shadow p-8 gap-6 flex flex-col">
 				<TextField
