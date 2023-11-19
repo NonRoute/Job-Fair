@@ -102,7 +102,7 @@ export default function EditSession({ userToken, bookingId }: { userToken: strin
 					className={`bg-white py-1 px-3 text-red-500 font-semibold rounded-md 
                         border-2 border-red-500 ${
 							interviewee == "No Interviewee book this session"
-								? "opacity-85 bg-stone-300 cursor-not-allowed"
+								? "bg-gray-300 text-white cursor-not-allowed"
 								: "hover:bg-slate-200"
 						} text-lg text-center`}
 				>

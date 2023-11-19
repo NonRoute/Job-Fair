@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import SessionForm from "./SessionForm"; // adjust the import path
-import { SessionList } from "./SessionList"; // adjust the import path
+import SessionForm from "./SessionForm";
+import { SessionList } from "./SessionList";
 import getBookings from "@/libs/getBookings";
 
 export default function AddSession({ userToken, companyId }: { userToken: string; companyId: string }) {
@@ -28,7 +28,7 @@ export default function AddSession({ userToken, companyId }: { userToken: string
 					onSessionAdded={handleSessionAdded}
 					mode="add"
 				/>
-				<SessionList sessions={sessions} mode="add" />
+				<SessionList userToken={userToken} sessions={sessions} mode="add" />
 			</div>
 		</>
 	);
