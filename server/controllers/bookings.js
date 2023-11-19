@@ -15,17 +15,18 @@ exports.getBookings = async (req, res, next) => {
 				$or: [
 					{ user: { $exists: false } }, // There is no user associated with the booking
 					{ user: req.user.id } // The user is the requesting user
-				]
+				],
+				company: companyId
 			}).populate({
 				path: "company",
-				select: "name address tel"
+				select: "name business address province postalcode tel picture"
 			});
 		} else {
 			query = Booking.find({
 				user: req.user.id
 			}).populate({
 				path: "company",
-				select: "name address tel"
+				select: "name business address province postalcode tel picture"
 			});
 		}
 	} else {
@@ -33,7 +34,7 @@ exports.getBookings = async (req, res, next) => {
 			query = Booking.find({ company: companyId })
 				.populate({
 					path: "company",
-					select: "name address tel"
+					select: "name business address province postalcode tel picture"
 				})
 				.populate({
 					path: "user",
@@ -43,7 +44,7 @@ exports.getBookings = async (req, res, next) => {
 			query = Booking.find()
 				.populate({
 					path: "company",
-					select: "name address tel"
+					select: "name business address province postalcode tel picture"
 				})
 				.populate({
 					path: "user",
@@ -73,7 +74,7 @@ exports.getBooking = async (req, res, next) => {
 		booking = await Booking.findById(req.params.id)
 			.populate({
 				path: "company",
-				select: "name address tel"
+				select: "name business address province postalcode tel picture"
 			})
 			.populate({
 				path: "user",
@@ -86,8 +87,7 @@ exports.getBooking = async (req, res, next) => {
 				message: `No booking with the id of ${req.params.id}`
 			});
 		}
-
-		if (req.user.role == "admin" || (booking.user && booking.user.toString() == req.user.id)) {
+		if (req.user.role == "admin" || (booking.user && booking.user.id.toString() == req.user.id)) {
 			return res.status(200).json({ success: true, data: booking });
 		}
 		return res.status(401).json({
@@ -171,7 +171,8 @@ exports.removeBooking = async (req, res, next) => {
 				message: `Booking with ID ${req.params.id} does not have an interviewee to remove`
 			});
 		}
-
+		console.log(booking.user);
+		console.log(req.user.id);
 		if (req.user.role == "admin" || (booking.user && booking.user.toString() == req.user.id)) {
 			// Remove the user from the booking
 			booking.user = undefined;

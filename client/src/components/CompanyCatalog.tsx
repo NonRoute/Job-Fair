@@ -1,14 +1,17 @@
 "use client";
 import ProductCard from "./ProductCard";
 import { CompanyItem } from "@/interface/Interface";
-import getUserProfile from "@/libs/getUserProfile";
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
 
-export default function CompanyCatalog({ companies }: { companies: Array<CompanyItem> }) {
-	const { data: session, status } = useSession();
-	// Refactor this code
-	if (!session || !session.user.token)
+export default function CompanyCatalog({
+	companies,
+	profile,
+	sessions
+}: {
+	companies: Array<CompanyItem>;
+	profile: any;
+	sessions?: Array<any>;
+}) {
+	if (!profile) {
 		return (
 			<div className="m-4 grid grid-cols-1 sm:grid-cols-3 gap-6">
 				{companies.map((companyItem, index) => (
@@ -28,36 +31,49 @@ export default function CompanyCatalog({ companies }: { companies: Array<Company
 				))}
 			</div>
 		);
-
-	const [profile, setProfile] = useState<any>("");
-
-	const fetchData = async () => {
-		setProfile(await getUserProfile(session.user.token));
-	};
-
-	useEffect(() => {
-		fetchData();
-	}, []);
+	}
 
 	return (
 		<div className="m-4 grid grid-cols-1 sm:grid-cols-3 gap-6">
-			{companies.map((companyItem, index) => (
-				<ProductCard
-					isLogin={true}
-					isAdmin={profile.data?.role === "admin"}
-					company={{
-						id: companyItem.id,
-						name: companyItem.name,
-						business: companyItem.business,
-						address: companyItem.address,
-						province: companyItem.province,
-						postalcode: companyItem.postalcode,
-						tel: companyItem.tel,
-						picture: companyItem.picture
-					}}
-					key={index}
-				/>
-			))}
+			{sessions
+				? sessions.map((sessionItem, index) => {
+						const companyItem = sessionItem.company;
+						return (
+							<ProductCard
+								isLogin={true}
+								isAdmin={profile.data?.role === "admin"}
+								company={{
+									id: companyItem.id,
+									name: companyItem.name,
+									business: companyItem.business,
+									address: companyItem.address,
+									province: companyItem.province,
+									postalcode: companyItem.postalcode,
+									tel: companyItem.tel,
+									picture: companyItem.picture
+								}}
+								sessionId={sessionItem._id}
+								key={index}
+							/>
+						);
+				  })
+				: companies.map((companyItem, index) => (
+						<ProductCard
+							isLogin={true}
+							isAdmin={profile.data?.role === "admin"}
+							company={{
+								id: companyItem.id,
+								name: companyItem.name,
+								business: companyItem.business,
+								address: companyItem.address,
+								province: companyItem.province,
+								postalcode: companyItem.postalcode,
+								tel: companyItem.tel,
+								picture: companyItem.picture
+							}}
+							key={index}
+						/>
+				  ))}
 		</div>
 	);
 }

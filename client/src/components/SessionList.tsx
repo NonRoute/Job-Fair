@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { SessionSlot } from "./SessionSlot";
 import assignInterviewee from "@/libs/assignInterviewee";
+import removeInterviewee from "@/libs/removeInterviewee";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
@@ -9,15 +10,17 @@ export function SessionList({
 	userToken,
 	userId,
 	sessions,
+	sessionId,
 	mode
 }: {
 	userToken?: string;
 	userId?: string;
 	sessions: Array<any>;
+	sessionId?: string;
 	mode: string;
 }) {
 	const router = useRouter();
-	const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
+	const [activeSessionId, setActiveSessionId] = useState<string | null>(sessionId ?? null);
 
 	const handleBookingSubmit = async (e: any) => {
 		e.preventDefault(); // Prevent the default form submission behavior
@@ -35,7 +38,28 @@ export function SessionList({
 			}
 		} catch (error) {
 			console.error(error);
-			toast.error("Error adding company");
+			toast.error("Error book session");
+		}
+	};
+
+	const handleEditingSubmit = async (e: any) => {
+		e.preventDefault(); // Prevent the default form submission behavior
+		try {
+			if (!userToken || !activeSessionId || !userId || !sessionId) {
+				throw new Error("No session selected or log in first");
+			}
+			const removeResponse = await removeInterviewee(userToken, sessionId);
+			const assignResponse = await assignInterviewee(userToken, activeSessionId, userId);
+			if (assignResponse?.success) {
+				// setActiveSessionId(null);
+				toast.success("Update interview success");
+				router.push("/interview");
+			} else {
+				toast.error("Update interview failed");
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Error update session");
 		}
 	};
 
@@ -73,6 +97,7 @@ export function SessionList({
 								)}
 								<SessionSlot
 									session={session}
+									sessionId={sessionId}
 									mode={mode}
 									isActive={isActive}
 									onSetActive={() => {
@@ -89,7 +114,7 @@ export function SessionList({
 			</div>
 			{sessions.length === 0 || mode == "add" ? (
 				<></>
-			) : (
+			) : mode == "book" ? (
 				<form
 					onSubmit={handleBookingSubmit}
 					className="text-5xl font-bold text-white mt-4 flex flex-col items-center justify-center"
@@ -105,6 +130,24 @@ export function SessionList({
 						}`}
 					>
 						Confirm Booking
+					</button>
+				</form>
+			) : (
+				<form
+					onSubmit={handleEditingSubmit}
+					className="text-5xl font-bold text-white mt-4 flex flex-col items-center justify-center"
+				>
+					<button
+						type="submit"
+						disabled={!activeSessionId}
+						className={` py-2 px-20 font-semibold rounded-md text-lg 
+						${
+							!activeSessionId
+								? "bg-gray-300 cursor-not-allowed"
+								: "bg-gradient-to-br from-cyan-500 to-sky-600 hover:from-cyan-400 hover:to-sky-500 hover:bg-slate-200 "
+						}`}
+					>
+						Save
 					</button>
 				</form>
 			)}
