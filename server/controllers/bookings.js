@@ -12,8 +12,10 @@ exports.getBookings = async (req, res, next) => {
 	if (req.user.role !== "admin") {
 		if (companyId) {
 			query = Booking.find({
-				user: req.user.id,
-				company: companyId
+				$or: [
+					{ user: { $exists: false } }, // There is no user associated with the booking
+					{ user: req.user.id } // The user is the requesting user
+				]
 			}).populate({
 				path: "company",
 				select: "name address tel"
