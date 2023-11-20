@@ -19,25 +19,25 @@ export default function Editing({ params }: { params: { sid: string } }) {
 	const [company, setCompany] = useState<CompanyItem>();
 	const [sessionBookings, setSessionBookings] = useState<any>();
 
-	if (!session || !session.user.token) return null;
-
 	const fetchData = async () => {
-		const userProfile = await getUserProfile(session.user.token);
-		setProfile(userProfile);
-		const bookingData = await getBooking(session.user.token, params.sid);
-		setCompany(bookingData.data.company);
-		// Check if the company is available before fetching related bookings
-		if (bookingData.data.company) {
-			const bookings = await getBookings(session.user.token, bookingData.data.company.id);
-			setSessionBookings(bookings.data);
+		if (session && session.user.token) {
+			const userProfile = await getUserProfile(session.user.token);
+			setProfile(userProfile);
+			const bookingData = await getBooking(session.user.token, params.sid);
+			setCompany(bookingData.data.company);
+			// Check if the company is available before fetching related bookings
+			if (bookingData.data.company) {
+				const bookings = await getBookings(session.user.token, bookingData.data.company.id);
+				setSessionBookings(bookings.data);
+			}
 		}
 	};
 
 	useEffect(() => {
-		if (session && session.user.token) {
-			fetchData();
-		}
+		fetchData();
 	}, [session, params.sid]);
+
+	if (!session || !session.user.token) return null;
 
 	const handleDeleteBooking = async (e: any) => {
 		const confirmed = window.confirm(`Do you want to delete this Interview?`);

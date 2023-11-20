@@ -65,7 +65,7 @@ export function SessionSlot({
 					isActive
 						? "text-white bg-sky-600 hover:bg-sky-500"
 						: session.user && session._id !== sessionId
-						  ? "text-white bg-red-600 hover:bg-red-500 cursor-not-allowed"
+						  ? "text-white bg-slate-400 cursor-not-allowed"
 						  : "border-sky-600 text-sky-600 bg-white hover:bg-slate-200"
 				}`}
 					key={session._id}

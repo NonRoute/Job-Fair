@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 export default function Navbar() {
 	const { data: session, status } = useSession();
 	const router = useRouter();
+	const pathname = usePathname();
 
 	return (
 		<div className="bg-white h-14 text-black flex items-center justify-between p-4 shadow">
@@ -22,14 +23,14 @@ export default function Navbar() {
 						<div className="flex gap-4 mx-4 font-semibold">
 							<Link
 								href="/interview"
-								className={`${usePathname() == "/interview" ? "underline" : "no-underline"}`}
+								className={`${pathname == "/interview" ? "underline" : "no-underline"}`}
 							>
 								My interview
 							</Link>
 							{session.user.role === "admin" && (
 								<Link
 									href="/add-company"
-									className={`${usePathname() == "/add-company" ? "underline" : "no-underline"}`}
+									className={`${pathname == "/add-company" ? "underline" : "no-underline"}`}
 								>
 									Add company
 								</Link>
@@ -38,7 +39,7 @@ export default function Navbar() {
 					</>
 				)}
 			</div>
-			{usePathname() !== "/login" && usePathname() !== "/register" && (
+			{pathname !== "/login" && pathname !== "/register" && (
 				<>
 					{session ? (
 						<div className="flex gap-4">

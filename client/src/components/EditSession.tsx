@@ -14,7 +14,7 @@ export default function EditSession({ userToken, bookingId }: { userToken: strin
 
 	const fetchData = async () => {
 		const booking = (await getBooking(userToken, bookingId)).data;
-		console.log(booking);
+		// console.log(booking);
 		if (booking.user) {
 			setInterviewee(booking.user.name);
 			console.log(booking.user.name);

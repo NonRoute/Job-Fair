@@ -14,17 +14,19 @@ export default function Booking({ params }: { params: { cid: string } }) {
 	const [company, setCompany] = useState<CompanyItem>();
 	const [sessionBookings, setSessionBookings] = useState<any>();
 
-	if (!session || !session.user.token) return null;
-
 	const fetchData = async () => {
-		setProfile(await getUserProfile(session.user.token));
-		setCompany((await getCompany(params.cid)).data);
-		setSessionBookings((await getBookings(session.user.token, params.cid)).data);
+		if (session && session.user.token) {
+			setProfile(await getUserProfile(session.user.token));
+			setCompany((await getCompany(params.cid)).data);
+			setSessionBookings((await getBookings(session.user.token, params.cid)).data);
+		}
 	};
 
 	useEffect(() => {
 		fetchData();
 	}, []);
+
+	if (!session || !session.user.token) return null;
 
 	return (
 		<div className="m-8">

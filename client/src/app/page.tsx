@@ -22,14 +22,14 @@ export default function Home() {
 
 	useEffect(() => {
 		fetchData();
-	}, []);
+	}, [session]);
 
 	return (
 		<main>
 			{!session && (
 				<div className="w-full h-[50vh] sm:h-[65vh] block relative">
 					<Image src={"/job.jpg"} fill={true} priority className="object-cover" alt={""} />
-					<div className="z-20 top-10 relative left-10">
+					<div className="z-20 top-10 relative left-10 w-fit">
 						<h1 className="text-2xl sm:text-4xl font-bold">Welcome to Job Fair</h1>
 						<h3 className="text-md sm:text-xl font-semibold">Discover Your Perfect Job </h3>
 						<Link

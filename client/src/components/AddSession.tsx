@@ -12,7 +12,7 @@ export default function AddSession({ userToken, companyId }: { userToken: string
 
 	useEffect(() => {
 		fetchData();
-	}, []);
+	}, [userToken, companyId]);
 
 	const handleSessionAdded = () => {
 		fetchData(); // refetch sessions after adding a new one

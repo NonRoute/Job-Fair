@@ -12,15 +12,15 @@ export default function Interview() {
 	const [companies, setCompanies] = useState<Array<CompanyItem>>([]);
 	const [sessionBookings, setSessionBookings] = useState<any>();
 
-	if (!session || !session.user.token) return <>Please login</>;
-
 	const fetchData = async () => {
-		setProfile(await getUserProfile(session.user.token));
-		setSessionBookings(
-			(await getBookings(session.user.token)).data.filter((s: any) => {
-				return s?.user?._id == session.user._id;
-			})
-		);
+		if (session && session.user.token) {
+			setProfile(await getUserProfile(session.user.token));
+			setSessionBookings(
+				(await getBookings(session.user.token)).data.filter((s: any) => {
+					return s?.user?._id == session.user._id;
+				})
+			);
+		}
 	};
 
 	useEffect(() => {
@@ -29,11 +29,13 @@ export default function Interview() {
 
 	useEffect(() => {
 		if (sessionBookings && sessionBookings.length > 0) {
-			const newCompanies = sessionBookings.map((booking) => booking.company);
+			const newCompanies = sessionBookings.map((booking: any) => booking.company);
 			setCompanies(newCompanies);
 		}
 	}, [sessionBookings]);
 
+	if (!session || !session.user.token) return <>Please login</>;
+	
 	return (
 		<main>
 			<div className="text-5xl font-bold text-white ml-8 mt-8">My interview</div>

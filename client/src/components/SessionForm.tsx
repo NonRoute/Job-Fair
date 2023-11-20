@@ -20,9 +20,9 @@ export default function SessionForm({
 	onSessionAdded: () => void;
 	mode: string;
 }) {
-	const [date, setDate] = useState<Date | null>(null);
-	const [timeStart, setTimeStart] = useState<Date | null>(null);
-	const [timeEnd, setTimeEnd] = useState<Date | null>(null);
+	const [date, setDate] = useState<any>(null);
+	const [timeStart, setTimeStart] = useState<any>(null);
+	const [timeEnd, setTimeEnd] = useState<any>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -43,7 +43,7 @@ export default function SessionForm({
 					setLoading(false);
 				});
 		}
-	}, []);
+	}, [mode, bookingId, userToken]);
 
 	if (loading) {
 		return <>Loading...</>;
@@ -91,27 +91,30 @@ export default function SessionForm({
 		<LocalizationProvider dateAdapter={AdapterDayjs}>
 			<div className="gap-6 flex flex-col">
 				<div className="font-semibold text-3xl">{mode == "add" ? <>Add Session</> : <></>}</div>
-				<DatePicker
-					className="w-1/2 pr-3"
-					label="Date"
-					slotProps={{ textField: { variant: "filled" } }}
-					value={date}
-					onChange={(e: Date | null) => setDate(e)}
-				/>
+				<div className="flex gap-6">
+					<DatePicker
+						className="w-full"
+						label="Date"
+						slotProps={{ textField: { variant: "filled" } }}
+						value={date}
+						onChange={(e: any) => setDate(e)}
+					/>
+					<div className="w-full"></div>
+				</div>
 				<div className="flex gap-6">
 					<TimePicker
 						className="w-full"
 						label="Time start"
 						slotProps={{ textField: { variant: "filled" } }}
 						value={timeStart}
-						onChange={(e: Date | null) => setTimeStart(e)}
+						onChange={(e: any) => setTimeStart(e)}
 					/>
 					<TimePicker
 						className="w-full"
 						label="Time end"
 						slotProps={{ textField: { variant: "filled" } }}
 						value={timeEnd}
-						onChange={(e: Date | null) => setTimeEnd(e)}
+						onChange={(e: any) => setTimeEnd(e)}
 					/>
 				</div>
 				<button

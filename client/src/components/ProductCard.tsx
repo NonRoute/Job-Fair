@@ -36,6 +36,7 @@ export default function ProductCard({
 			setBookingTime(time);
 		}
 	};
+	const pathname = usePathname()
 
 	useEffect(() => {
 		if (session && session.user.token) {
@@ -76,7 +77,7 @@ export default function ProductCard({
 				) : (
 					<></>
 				)}
-				{isAdmin && usePathname() == "/" ? (
+				{isAdmin && pathname == "/" ? (
 					<Link
 						href={`/edit-company/${company.id}`}
 						type="submit"
