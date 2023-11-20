@@ -10,6 +10,7 @@ import getBooking from "@/libs/getBooking";
 import removeInterviewee from "@/libs/removeInterviewee";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import deleteSession from "@/libs/deleteSession";
 
 export default function Editing({ params }: { params: { sid: string } }) {
 	const router = useRouter();
@@ -39,20 +40,23 @@ export default function Editing({ params }: { params: { sid: string } }) {
 	}, [session, params.sid]);
 
 	const handleDeleteBooking = async (e: any) => {
+		const confirmed = window.confirm(`Do you want to delete this Interview?`);
 		e.preventDefault();
-		try {
-			if (!company?.id) {
-				throw new Error("No Booking ID given");
+		if (confirmed) {
+			try {
+				if (!company?.id) {
+					throw new Error("No Booking ID given");
+				}
+				const response = await deleteSession(session.user.token, params.sid);
+				if (response?.success) {
+					toast.success("Delete Interview success");
+					router.push("/interview");
+				} else {
+					toast.error("Delete Interview failed");
+				}
+			} catch (error) {
+				console.log(error);
 			}
-			const response = await removeInterviewee(session.user.token, params.sid);
-			if (response?.success) {
-				toast.success("Remove Interviewee success");
-				router.push("/interview");
-			} else {
-				toast.error("Remove Interviewee failed");
-			}
-		} catch (error) {
-			console.log(error);
 		}
 	};
 

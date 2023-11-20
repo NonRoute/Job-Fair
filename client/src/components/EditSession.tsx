@@ -26,21 +26,24 @@ export default function EditSession({ userToken, bookingId }: { userToken: strin
 	}, []);
 
 	const handleDeleteSession = async (e: any) => {
+		const confirmed = window.confirm(`Do you want to delete this Session?`);
 		e.preventDefault();
-		try {
-			if (!bookingId) {
-				throw new Error("No Booking ID given");
+		if (confirmed) {
+			try {
+				if (!bookingId) {
+					throw new Error("No Booking ID given");
+				}
+				const response = await deleteSession(userToken, bookingId);
+				if (response?.success) {
+					toast.success("Delete Session success");
+					// Should go back to company overall session for better UX
+					router.push("/"); // change to company page
+				} else {
+					toast.error("Delete Session failed");
+				}
+			} catch (error) {
+				console.log(error);
 			}
-			const response = await deleteSession(userToken, bookingId);
-			if (response?.success) {
-				toast.success("Delete Session success");
-				// Should go back to company overall session for better UX
-				router.push("/"); // change to company page
-			} else {
-				toast.error("Delete Session failed");
-			}
-		} catch (error) {
-			console.log(error);
 		}
 	};
 
@@ -72,7 +75,7 @@ export default function EditSession({ userToken, bookingId }: { userToken: strin
 				<button
 					type="submit"
 					className="bg-white py-1 px-3 text-red-500 font-semibold rounded-md 
-							border-2 border-red-500 hover:bg-slate-200 text-lg text-center"
+							border-2 border-red-500 hover:bg-slate-200 text-lg text-center w-[210px]"
 				>
 					Delete Session
 				</button>
@@ -93,12 +96,12 @@ export default function EditSession({ userToken, bookingId }: { userToken: strin
 						interviewee == "No Interviewee book this session"
 							? "bg-gray-300 text-white cursor-not-allowed border-gray-300"
 							: "text-red-500 bg-white hover:bg-slate-200 border-red-500"
-					} text-lg text-center`}
+					} text-lg text-center w-[210px]`}
 				>
 					Remove Interviewee
 				</button>
 			</form>
-			<div className="p-8 bg-white rounded-md shadow bg-white flex items-center">
+			<div className="p-8 bg-white rounded-md shadow flex items-center">
 				<FaUser className="text-cyan-600 text-3xl mr-2" />
 				<div className="text-cyan-600 font-semibold text-3xl">{interviewee}</div>
 			</div>

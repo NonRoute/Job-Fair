@@ -16,7 +16,11 @@ export default function Interview() {
 
 	const fetchData = async () => {
 		setProfile(await getUserProfile(session.user.token));
-		setSessionBookings((await getBookings(session.user.token)).data);
+		setSessionBookings(
+			(await getBookings(session.user.token)).data.filter((s: any) => {
+				return s?.user?._id == session.user._id;
+			})
+		);
 	};
 
 	useEffect(() => {
@@ -30,11 +34,12 @@ export default function Interview() {
 		}
 	}, [sessionBookings]);
 
-	if (companies.length == 0) {
-		return <>You do not have any booking</>;
-	}
 	return (
 		<main>
+			<div className="text-5xl font-bold text-white ml-8 mt-8">My interview</div>
+			{companies.length == 0 && (
+				<div className="text-xl font-bold ml-8 my-4 pt-2 text-white">You do not have any booking</div>
+			)}
 			<CompanyCatalog companies={companies} profile={profile} sessions={sessionBookings} />
 		</main>
 	);

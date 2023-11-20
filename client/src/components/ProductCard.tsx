@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import getBooking from "@/libs/getBooking";
 import dayjs from "dayjs";
+import { MdAccessTimeFilled } from "react-icons/md";
+import { usePathname } from "next/navigation";
 
 export default function ProductCard({
 	company,
@@ -23,7 +25,7 @@ export default function ProductCard({
 	const fetchData = async () => {
 		if (session && sessionId) {
 			const bookingData = await getBooking(session.user.token, sessionId);
-			const bookingDate = dayjs().format("YYYY-MM-DD");
+			const bookingDate = dayjs().format("YYYY-MMM-DD");
 			const bookingStart =
 				dayjs(bookingData.data.bookingStart).get("hour") +
 				":" +
@@ -44,7 +46,12 @@ export default function ProductCard({
 	return (
 		<div className="bg-white rounded-lg shadow-md overflow-hidden py-4 px-6 gap-2 flex flex-col w-full justify-between h-full">
 			<CompanyDetail company={company} />
-			<div className="text-cyan-600 font-semibold text-l text-center">{bookingTime}</div>
+			{bookingTime && (
+				<div className="text-cyan-600 font-semibold text-lg gap-2 flex items-center justify-center">
+					<MdAccessTimeFilled />
+					{bookingTime}
+				</div>
+			)}
 			<div className="gap-2 flex flex-col">
 				{isLogin ? (
 					sessionId ? (
@@ -69,7 +76,7 @@ export default function ProductCard({
 				) : (
 					<></>
 				)}
-				{isAdmin ? (
+				{isAdmin && usePathname() == "/" ? (
 					<Link
 						href={`/edit-company/${company.id}`}
 						type="submit"

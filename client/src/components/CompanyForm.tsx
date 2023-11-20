@@ -114,21 +114,24 @@ export default function CompanyForm({
 	};
 
 	const handleDeleteCompany = async (e: any) => {
+		const confirmed = window.confirm(`Do you want to delete this Company?`);
 		e.preventDefault();
-		try {
-			if (!companyId) {
-				throw new Error("No Company ID given");
+		if (confirmed) {
+			try {
+				if (!companyId) {
+					throw new Error("No Company ID given");
+				}
+				const response = await deleteCompany(userToken, companyId);
+				if (response?.success) {
+					toast.success("Delete Company Data success");
+					// Should add delay to make UX better
+					router.push("/"); // change to company page
+				} else {
+					toast.error("Delete Company Data failed");
+				}
+			} catch (error) {
+				console.log(error);
 			}
-			const response = await deleteCompany(userToken, companyId);
-			if (response?.success) {
-				toast.success("Delete Company Data success");
-				// Should add delay to make UX better
-				router.push("/"); // change to company page
-			} else {
-				toast.error("Delete Company Data failed");
-			}
-		} catch (error) {
-			console.log(error);
 		}
 	};
 

@@ -38,7 +38,7 @@ export function SessionSlot({
 					className={`flex gap-2 items-center justify-center border-2 rounded-lg p-1 font-semibold w-[130px]
 				${
 					session.user
-						? "text-white bg-red-600 hover:bg-red-500 cursor-not-allowed"
+						? "text-white bg-slate-400 cursor-not-allowed"
 						: isActive
 						  ? "text-white bg-sky-600 hover:bg-sky-500"
 						  : "border-sky-600 text-sky-600 bg-white hover:bg-slate-200"

@@ -22,7 +22,7 @@ export default function Register() {
 			toast.success("Register success");
 			router.push("/");
 		} else {
-			toast.error("Register failed");
+			toast.error("Register failed " + response.msg.split('\n')[0]);
 			console.error(response.msg);
 		}
 	};

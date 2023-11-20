@@ -13,7 +13,7 @@ export default function CompanyCatalog({
 }) {
 	if (!profile) {
 		return (
-			<div className="m-4 grid grid-cols-1 sm:grid-cols-3 gap-6">
+			<div className="m-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
 				{companies.map((companyItem, index) => (
 					<ProductCard
 						company={{
@@ -34,7 +34,7 @@ export default function CompanyCatalog({
 	}
 
 	return (
-		<div className="m-4 grid grid-cols-1 sm:grid-cols-3 gap-6">
+		<div className="m-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
 			{sessions
 				? sessions.map((sessionItem, index) => {
 						const companyItem = sessionItem.company;
