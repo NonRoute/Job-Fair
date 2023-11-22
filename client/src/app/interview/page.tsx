@@ -15,11 +15,7 @@ export default function Interview() {
 	const fetchData = async () => {
 		if (session && session.user.token) {
 			setProfile(await getUserProfile(session.user.token));
-			setSessionBookings(
-				(await getBookings(session.user.token)).data.filter((s: any) => {
-					return s?.user?._id == session.user._id;
-				})
-			);
+			setSessionBookings((await getBookings(session.user.token)).data);
 		}
 	};
 
@@ -35,7 +31,7 @@ export default function Interview() {
 	}, [sessionBookings]);
 
 	if (!session || !session.user.token) return <>Please login</>;
-	
+
 	return (
 		<main>
 			<div className="text-5xl font-bold text-white ml-8 mt-8">My interview</div>
