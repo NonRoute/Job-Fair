@@ -10,7 +10,6 @@ import getBooking from "@/libs/getBooking";
 import removeInterviewee from "@/libs/removeInterviewee";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import deleteSession from "@/libs/deleteSession";
 
 export default function Editing({ params }: { params: { sid: string } }) {
 	const router = useRouter();
@@ -40,19 +39,19 @@ export default function Editing({ params }: { params: { sid: string } }) {
 	if (!session || !session.user.token) return null;
 
 	const handleDeleteBooking = async (e: any) => {
-		const confirmed = window.confirm(`Do you want to delete this Interview?`);
+		const confirmed = window.confirm(`Do you want to cancel this Interview?`);
 		e.preventDefault();
 		if (confirmed) {
 			try {
 				if (!company?.id) {
 					throw new Error("No Booking ID given");
 				}
-				const response = await deleteSession(session.user.token, params.sid);
+				const response = await removeInterviewee(session.user.token, params.sid);
 				if (response?.success) {
-					toast.success("Delete Interview success");
+					toast.success("Cancel Interview success");
 					router.push("/interview");
 				} else {
-					toast.error("Delete Interview failed");
+					toast.error("Cancel Interview failed");
 				}
 			} catch (error) {
 				console.log(error);
@@ -72,7 +71,7 @@ export default function Editing({ params }: { params: { sid: string } }) {
 					className="bg-white py-1 px-3 text-red-500 font-semibold rounded-md 
 							border-2 border-red-500 hover:bg-slate-200 text-lg text-center"
 				>
-					Delete Interview
+					Cancel Interview
 				</button>
 			</form>
 			<div className="p-8 gap-8 bg-white rounded-md shadow flex flex-col">
