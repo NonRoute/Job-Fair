@@ -32,7 +32,7 @@ export function SessionList({
 			if (response?.success) {
 				// setActiveSessionId(null);
 				toast.success("Book session success");
-				router.push("/");
+				router.push("/interview");
 			} else {
 				toast.error("Book session failed");
 			}
