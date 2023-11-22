@@ -18,7 +18,7 @@ export function SessionSlot({
 		return (
 			<Link
 				href={`/edit-session/${session._id}`}
-				className={`flex gap-2 items-center justify-center border-2 border-sky-600 rounded-lg p-1 font-semibold w-[130px] 
+				className={`flex gap-2 items-center justify-center border-2 border-sky-600 rounded-lg p-1 font-semibold w-[140px] 
 				${session.user ? "text-white bg-sky-600 hover:bg-sky-500" : "text-sky-600 hover:bg-slate-200"}`}
 				key={session._id}
 			>
@@ -35,7 +35,7 @@ export function SessionSlot({
 			<div>
 				<button
 					onClick={onSetActive}
-					className={`flex gap-2 items-center justify-center border-2 rounded-lg p-1 font-semibold w-[130px]
+					className={`flex gap-2 items-center justify-center border-2 rounded-lg p-1 font-semibold w-[140px]
 				${
 					session.user
 						? "text-white bg-slate-400 cursor-not-allowed"
@@ -60,7 +60,7 @@ export function SessionSlot({
 			<div>
 				<button
 					onClick={onSetActive}
-					className={`flex gap-2 items-center justify-center border-2 rounded-lg p-1 font-semibold w-[130px]
+					className={`flex gap-2 items-center justify-center border-2 rounded-lg p-1 font-semibold w-[140px]
 				${
 					isActive
 						? "text-white bg-sky-600 hover:bg-sky-500"
