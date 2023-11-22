@@ -29,14 +29,16 @@ export default function ProductCard({
 			const bookingStart =
 				dayjs(bookingData.data.bookingStart).get("hour") +
 				":" +
-				dayjs(bookingData.data.bookingStart).get("minute");
+				dayjs(bookingData.data.bookingStart).get("minute").toString().padStart(2, "0");
 			const bookingEnd =
-				dayjs(bookingData.data.bookingEnd).get("hour") + ":" + dayjs(bookingData.data.bookingEnd).get("minute");
+				dayjs(bookingData.data.bookingEnd).get("hour") +
+				":" +
+				dayjs(bookingData.data.bookingEnd).get("minute").toString().padStart(2, "0");
 			const time = bookingDate + " " + bookingStart + "-" + bookingEnd;
 			setBookingTime(time);
 		}
 	};
-	const pathname = usePathname()
+	const pathname = usePathname();
 
 	useEffect(() => {
 		if (session && session.user.token) {
